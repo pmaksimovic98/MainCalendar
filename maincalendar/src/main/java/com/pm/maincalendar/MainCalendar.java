@@ -21,27 +21,22 @@ public class MainCalendar extends ConstraintLayout {
     public OnMainClickListener onMainClickListener;
 
 
-
-
     void init(Context context) {
         rootView = inflate(context, R.layout.main_calendar_layout, this);
         ArrayList<LinearLayout> arrayList;
         arrayList = new ArrayList<LinearLayout>();
         arrayList.add(this.findViewById(R.id.week_2));
-                arrayList.add(this.findViewById(R.id.week_3));
-                arrayList.add(this.findViewById(R.id.week_4));
-                arrayList.add(this.findViewById(R.id.week_5));
-                arrayList.add(this.findViewById(R.id.week_6));
-                arrayList.add(this.findViewById(R.id.week_7));
+        arrayList.add(this.findViewById(R.id.week_3));
+        arrayList.add(this.findViewById(R.id.week_4));
+        arrayList.add(this.findViewById(R.id.week_5));
+        arrayList.add(this.findViewById(R.id.week_6));
+        arrayList.add(this.findViewById(R.id.week_7));
 
   /*      for (int i = 1; i < this.getChildCount(); i++) {
 
             arrayList.add((LinearLayout) this.getChildAt(i));
         }*/
         initButtons(arrayList);
-
-
-
 
 
     }
@@ -74,6 +69,8 @@ public class MainCalendar extends ConstraintLayout {
 
                     ((CalendarButton<Object>) v).setData(datesWithValues);
                     ((CalendarButton<Object>) v).setOnDayClickListener(new CalendarButton.OnDayClickListener() {
+
+
                         @Override
                         public void onClick(OnClickListener onClickListener, CalendarButton calendarButton) {
                             System.out.println("clicked " + calendarButton);
@@ -93,20 +90,6 @@ public class MainCalendar extends ConstraintLayout {
         }));
 
     }
-
-
-
-
-    public void setOnClickListener(OnMainClickListener me) {
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                me.onClick(MainCalendar.this, calendarButton);
-
-            }
-        });
-    }
-
 
 
     public interface OnMainClickListener {

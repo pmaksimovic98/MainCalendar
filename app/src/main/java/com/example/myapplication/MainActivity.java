@@ -21,13 +21,20 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((MainCalendar) findViewById(R.id.main_calendar)).setOnClickListener(new MainCalendar.OnMainClickListener() {
+         findViewById(R.id.main_calendar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println((((MainCalendar) v).calendarButton).getCalendarData());
+
+            }
+        });
+/*        ((MainCalendar) findViewById(R.id.main_calendar)).setOnClickListener(new MainCalendar.OnMainClickListener() {
             @Override
             public void onClick(MainCalendar mainCalendar, CalendarButton button) {
                 if(button != null)
                    System.out.println("Show button after click action " + button);
             }
-        });
+        });*/
 
 
     }
