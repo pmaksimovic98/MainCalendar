@@ -2,6 +2,7 @@ package com.pm.maincalendar;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.metrics.Event;
 import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.annotation.Nullable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import androidx.appcompat.widget.AppCompatTextView;
+
+import java.util.EventListener;
 import java.util.HashMap;
 
 
@@ -23,9 +26,12 @@ public class CalendarButton<DataClass>
     private BaseCalendarData<DataClass> data;
     private  HashMap<LocalDate, DataClass> changedData;
     private  HashMap<LocalDate, DataClass> oldChangedData;
+    public CalendarButton superCalendarButton;
+
     public CalendarButton(Context context) {
         super(context);
         init();
+
     }
 
 
@@ -58,6 +64,10 @@ public class CalendarButton<DataClass>
         changedData = newValue;
     }
 
+    public BaseCalendarData<DataClass> getCalendarData(){
+        return this.data;
+    }
+
     public void setOnChangedDataListener(OnChangeDataListener<DataClass> e){
         e.onChange(oldChangedData, changedData);
     }
@@ -76,6 +86,7 @@ public class CalendarButton<DataClass>
     }
 
 
+
     public interface OnChangeDataListener<DataClass> {
         void onChange(HashMap<LocalDate, DataClass> oldValue,
                       HashMap<LocalDate, DataClass> newValue);
@@ -90,22 +101,6 @@ public class CalendarButton<DataClass>
     }
 
 
+
 }
-
-
-/*
-
-        LocalDatesWithValues.forEach((i) -> {
-            i.forEach((k,v)->{
-                if(v.getModifiers() != Modifier.PUBLIC){
-                    //throw exception dodati
-                    return;
-                }else{
-                    //napuniti button podacima
-                }
-            });
-        });
-
- */
-
 
