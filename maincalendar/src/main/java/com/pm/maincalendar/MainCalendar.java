@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -14,11 +15,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class MainCalendar extends ConstraintLayout {
+public class MainCalendar<DataClass> extends ConstraintLayout {
     View rootView;
-    public Object dataClass = this;
+    public DataClass dataClass = null;
     public CalendarButton calendarButton;
     public OnMainClickListener onMainClickListener;
+
+
+
 
 
     void init(Context context) {
@@ -50,7 +54,11 @@ public class MainCalendar extends ConstraintLayout {
     public MainCalendar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        dataClass = new CalendarButton<Object>(context, attrs);
+        //dataClass = new CalendarButton<DataClass>(context, attrs);
+    }
+
+    public void setDataClass(DataClass dataClass) {
+        this.dataClass = dataClass;
     }
 
     public void initButtons(ArrayList<LinearLayout> layout) {
@@ -59,16 +67,16 @@ public class MainCalendar extends ConstraintLayout {
             for (int i = 0; i < k.getChildCount(); i++) {
                 View v = k.getChildAt(i);
                 if (v instanceof CalendarButton) {
-                    HashMap<LocalDate, Object> data = new HashMap();
+                    HashMap<LocalDate, DataClass> data = new HashMap();
                     data.put(LocalDate.now(), dataClass);
 
-                    ArrayList<HashMap<LocalDate, Object>> datesWithValues = new ArrayList<>();
+                    ArrayList<HashMap<LocalDate, DataClass>> datesWithValues = new ArrayList<>();
                     datesWithValues.add(data);
 
                     System.out.println("Data  " + k.getChildCount());
 
-                    ((CalendarButton<Object>) v).setData(datesWithValues);
-                    ((CalendarButton<Object>) v).setOnDayClickListener(new CalendarButton.OnDayClickListener() {
+                    ((CalendarButton<DataClass>) v).setData(datesWithValues);
+                    ((CalendarButton<DataClass>) v).setOnDayClickListener(new CalendarButton.OnDayClickListener() {
 
 
                         @Override
@@ -79,7 +87,7 @@ public class MainCalendar extends ConstraintLayout {
                         }
                     });
 
-                    ((CalendarButton<Object>) v).setOnInitListener(new CalendarButton.OnInitDataListener() {
+                    ((CalendarButton<DataClass>) v).setOnInitListener(new CalendarButton.OnInitDataListener() {
                         @Override
                         public void onInit(ArrayList localDatesWithValues) {
                             System.out.println("TETERETETETE" + localDatesWithValues);

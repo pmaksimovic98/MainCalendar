@@ -43,8 +43,8 @@ class BaseCalendarData<DataClass> {
     }
 
     public void changeValueOfCalendarData(
-            HashMap<LocalDate, DataClass> oldValue,
-            HashMap<LocalDate, DataClass> newValue
+            @NonNull HashMap<LocalDate, DataClass> oldValue,
+            @NonNull HashMap<LocalDate, DataClass> newValue
     ) {
         this.baseCalendarData.set(this.baseCalendarData.indexOf(oldValue), newValue);
         //onChangeDataListener.onChange(oldValue, newValue);

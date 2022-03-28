@@ -1,31 +1,24 @@
 package com.pm.maincalendar;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.media.metrics.Event;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.EventListener;
 import java.util.HashMap;
 
 
 public class CalendarButton<DataClass>
         extends AppCompatTextView {
 
-    private BaseCalendarData<DataClass> data;
+    public BaseCalendarData<DataClass> data;
     private  HashMap<LocalDate, DataClass> changedData;
-    private  HashMap<LocalDate, DataClass> oldChangedData;
+    private  HashMap<LocalDate, DataClass> oldData;
     public CalendarButton superCalendarButton;
 
     public CalendarButton(Context context) {
@@ -47,12 +40,11 @@ public class CalendarButton<DataClass>
 
     private void init(){
 
-
     }
 
     public void setData(@NonNull ArrayList<HashMap<LocalDate, DataClass>> localDatesWithValues){
         System.out.println("Dates with values" + localDatesWithValues);
-        data = new BaseCalendarData<>(localDatesWithValues);
+        data = new BaseCalendarData<DataClass>(localDatesWithValues);
         data.setBaseCalendarData(localDatesWithValues);
     }
 
@@ -69,7 +61,7 @@ public class CalendarButton<DataClass>
     }
 
     public void setOnChangedDataListener(OnChangeDataListener<DataClass> e){
-        e.onChange(oldChangedData, changedData);
+        e.onChange(oldData, changedData);
     }
 
     public void setOnInitListener(OnInitDataListener<DataClass> e){
@@ -85,8 +77,6 @@ public class CalendarButton<DataClass>
         });
     }
 
-
-
     public interface OnChangeDataListener<DataClass> {
         void onChange(HashMap<LocalDate, DataClass> oldValue,
                       HashMap<LocalDate, DataClass> newValue);
@@ -99,8 +89,6 @@ public class CalendarButton<DataClass>
     public interface OnDayClickListener{
         void onClick(OnClickListener onClickListener, CalendarButton calendarButton);
     }
-
-
 
 }
 
