@@ -21,6 +21,8 @@ public class MainCalendar<DataClass> extends ConstraintLayout {
     public CalendarButton calendarButton;
     public OnMainClickListener onMainClickListener;
 
+    private ArrayList<CalendarButton<DataClass>> mainCalendarButtons = new ArrayList();
+
 
 
 
@@ -47,12 +49,14 @@ public class MainCalendar<DataClass> extends ConstraintLayout {
 
     public MainCalendar(Context context) {
         super(context);
+        this.dataClass = dataClass;
         init(context);
 
     }
 
     public MainCalendar(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.dataClass = dataClass;
         init(context);
         //dataClass = new CalendarButton<DataClass>(context, attrs);
     }
@@ -61,35 +65,53 @@ public class MainCalendar<DataClass> extends ConstraintLayout {
         this.dataClass = dataClass;
     }
 
-    public void initButtons(ArrayList<LinearLayout> layout) {
+    public CalendarButton<DataClass> getButton(LocalDate localDate){
+        for(int i = 0; i< mainCalendarButtons.size(); i++){
+           if(mainCalendarButtons.get(i).publicKey.getDayOfMonth() == localDate.getDayOfMonth()){
+               System.out.println("TERETE "+mainCalendarButtons.size());
+
+               return mainCalendarButtons.get(i);
+           }
+        }
+        return null;
+    }
+
+    public ArrayList<CalendarButton<DataClass>> getAllButtons(){
+        return this.mainCalendarButtons;
+    }
+
+
+    private void initButtons(ArrayList<LinearLayout> layout) {
         System.out.println("TETERETETETE" + layout.size());
+        final int[] j = new int[1];
+
+
         layout.forEach((k -> {
             for (int i = 0; i < k.getChildCount(); i++) {
                 View v = k.getChildAt(i);
                 if (v instanceof CalendarButton) {
+                    ((CalendarButton<?>) v).publicKey = LocalDate.of(2022, 3, 1).plusDays(i);
+
+                    mainCalendarButtons.add((CalendarButton) v);
                     HashMap<LocalDate, DataClass> data = new HashMap();
                     data.put(LocalDate.now(), dataClass);
-
-                    ArrayList<HashMap<LocalDate, DataClass>> datesWithValues = new ArrayList<>();
-                    datesWithValues.add(data);
-
                     System.out.println("Data  " + k.getChildCount());
-
-                    ((CalendarButton<DataClass>) v).setData(datesWithValues);
-                    ((CalendarButton<DataClass>) v).setOnDayClickListener(new CalendarButton.OnDayClickListener() {
-
-
+                    ((CalendarButton<DataClass>) v).setData(
+                            data.get(((CalendarButton<?>) v).publicKey));
+                    ((CalendarButton) v).setText(" "+ i);
+                    //((CalendarButton) v).setText(((CalendarButton<?>) v).publicKey.getDayOfMonth());
+/*                    ((CalendarButton<DataClass>) v).setOnDayClickListener(new CalendarButton.OnDayClickListener() {
                         @Override
                         public void onClick(OnClickListener onClickListener, CalendarButton calendarButton) {
                             System.out.println("clicked " + calendarButton);
                             MainCalendar.this.calendarButton = calendarButton;
                             //onMainClickListener.onClick(MainCalendar.this, calendarButton);
                         }
-                    });
+                    });*/
 
                     ((CalendarButton<DataClass>) v).setOnInitListener(new CalendarButton.OnInitDataListener() {
                         @Override
-                        public void onInit(ArrayList localDatesWithValues) {
+                        public void onInit(HashMap localDatesWithValues) {
                             System.out.println("TETERETETETE" + localDatesWithValues);
                         }
                     });
@@ -98,6 +120,9 @@ public class MainCalendar<DataClass> extends ConstraintLayout {
         }));
 
     }
+
+
+
 
 
     public interface OnMainClickListener {

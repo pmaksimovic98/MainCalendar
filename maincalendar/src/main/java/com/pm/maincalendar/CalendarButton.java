@@ -1,37 +1,43 @@
 package com.pm.maincalendar;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import java.util.HashMap;
 
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CalendarButton<DataClass>
         extends AppCompatTextView {
 
     public BaseCalendarData<DataClass> data;
-    private  HashMap<LocalDate, DataClass> changedData;
-    private  HashMap<LocalDate, DataClass> oldData;
-    public CalendarButton superCalendarButton;
+    LocalDate publicKey;
+    //= LocalDate.of(2022, 3, 28);
+    private  DataClass changedData;
+    private  DataClass oldData;
+
+    private OnChangeDataListener<DataClass> onChangeDataListener;
 
     public CalendarButton(Context context) {
         super(context);
         init();
-
     }
-
 
     public CalendarButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
+
 
     public CalendarButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -42,18 +48,28 @@ public class CalendarButton<DataClass>
 
     }
 
-    public void setData(@NonNull ArrayList<HashMap<LocalDate, DataClass>> localDatesWithValues){
+    public CalendarButton getButton() {
+        return this;
+    }
+    public void setData(@NonNull DataClass localDatesWithValues){
         System.out.println("Dates with values" + localDatesWithValues);
-        data = new BaseCalendarData<DataClass>(localDatesWithValues);
-        data.setBaseCalendarData(localDatesWithValues);
+        HashMap<LocalDate, DataClass> hashMap = new HashMap<LocalDate, DataClass> ();
+        hashMap.put(publicKey, localDatesWithValues);
+
+        data = new BaseCalendarData<DataClass>(hashMap);
+        data.setBaseCalendarData(hashMap);
     }
 
     public void changeValueOfCalendarData(
-            HashMap<LocalDate, DataClass> oldValue,
-            HashMap<LocalDate, DataClass> newValue
+            LocalDate key,
+            DataClass newValue
     ) {
-        data.changeValueOfCalendarData(oldValue, newValue);
+        System.out.println(key);
+        oldData = data.getBaseCalendarData().get(key);
+        data.changeValueOfCalendarData(key, newValue);
         changedData = newValue;
+        onChangeDataListener.onChange(oldData, changedData);
+        System.out.println("Data changed!2");
     }
 
     public BaseCalendarData<DataClass> getCalendarData(){
@@ -61,7 +77,8 @@ public class CalendarButton<DataClass>
     }
 
     public void setOnChangedDataListener(OnChangeDataListener<DataClass> e){
-        e.onChange(oldData, changedData);
+        onChangeDataListener = e;
+
     }
 
     public void setOnInitListener(OnInitDataListener<DataClass> e){
@@ -78,12 +95,12 @@ public class CalendarButton<DataClass>
     }
 
     public interface OnChangeDataListener<DataClass> {
-        void onChange(HashMap<LocalDate, DataClass> oldValue,
-                      HashMap<LocalDate, DataClass> newValue);
+        void onChange(DataClass oldValue,
+                      DataClass newValue);
     }
 
     public interface OnInitDataListener<DataClass> {
-        void onInit(ArrayList<HashMap<LocalDate, DataClass>> localDatesWithValues);
+        void onInit(HashMap<LocalDate, DataClass> localDatesWithValues);
     }
 
     public interface OnDayClickListener{

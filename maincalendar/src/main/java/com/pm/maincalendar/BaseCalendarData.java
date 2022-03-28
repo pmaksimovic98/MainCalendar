@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class BaseCalendarData<DataClass> {
+public class BaseCalendarData<DataClass> {
     //abstraktna klasa koja bi trebala da uzme public/data klasu namjenju za upravljanje podacima prema datumu i zbog rada ne moze da bude null !
-    protected ArrayList<HashMap<LocalDate, DataClass>> baseCalendarData;
+    protected HashMap<LocalDate, DataClass> baseCalendarData;
 /*
 *     public OnChangeDataListener<DataClass> onChangeDataListener = new OnChangeDataListener<DataClass>() {
         @Override
@@ -27,27 +27,27 @@ class BaseCalendarData<DataClass> {
 * */
 
     public BaseCalendarData(
-            ArrayList<HashMap<LocalDate, DataClass>> localDatesWithValues) {
+            HashMap<LocalDate, DataClass> localDatesWithValues) {
         this.baseCalendarData = localDatesWithValues;
         System.out.println("Local data valiues "+ localDatesWithValues);
         //onInitDataListener.onInit(localDatesWithValues);
     }
 
-    ArrayList<HashMap<LocalDate, DataClass>>
+    HashMap<LocalDate, DataClass>
     getBaseCalendarData() {
         return this.baseCalendarData;
     }
 
-    public void setBaseCalendarData(@NonNull ArrayList<HashMap<LocalDate, DataClass>> localDatesWithValues) {
+    public void setBaseCalendarData(@NonNull HashMap<LocalDate, DataClass> localDatesWithValues) {
         this.baseCalendarData = localDatesWithValues;
     }
 
     public void changeValueOfCalendarData(
-            @NonNull HashMap<LocalDate, DataClass> oldValue,
-            @NonNull HashMap<LocalDate, DataClass> newValue
+            @NonNull LocalDate key,
+            @NonNull DataClass newValue
     ) {
-        this.baseCalendarData.set(this.baseCalendarData.indexOf(oldValue), newValue);
-        //onChangeDataListener.onChange(oldValue, newValue);
+        this.baseCalendarData.replace(key, newValue);
+
     }
 
 
