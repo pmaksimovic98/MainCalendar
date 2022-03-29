@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         arrayList.add(hashMap);
         //MainCalendar<Cube> mainCalendar = new MainCalendar<Cube>(getApplicationContext());
         MainCalendar<Cube> mainCalendar = findViewById(R.id.main_calendar);
-        mainCalendar.setDataClass(root);
+        //mainCalendar.setDataClass(root);
         mainCalendar.getAllButtons().forEach(k->{
 
             k.setOnChangedDataListener(new CalendarButton.OnChangeDataListener<Cube>() {
@@ -77,41 +77,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-/*        findViewById(R.id.main_calendar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //System.out.println((((MainCalendar) v).calendarButton).getCalendarData());
-
-                ((MainCalendar) v).calendarButton.setOnChangedDataListener(new CalendarButton.OnChangeDataListener() {
-                    @Override
-                    public void onChange(Object oldValue, Object newValue) {
-                        System.out.println("Old value:" + oldValue + "New value: " + newValue);
-
-                    }
-
- *//*                   @Override
-                    public void onChange(HashMap oldValue, HashMap newValue) {
-                        System.out.println("Old value:" + oldValue + "New value: " + newValue);
-                    }*//*
-                });
-                HashMap<LocalDate, Cube> hashMap = new HashMap<LocalDate, Cube>();
-                hashMap.put(LocalDate.now(), root);
-
-
-               // ((MainCalendar) v).calendarButton.changeValueOfCalendarData( (((MainCalendar) v).calendarButton.getCalendarData()), hashMap);
-
-            }
-        });*/
-
-
-/*        ((MainCalendar) findViewById(R.id.main_calendar)).setOnClickListener(new MainCalendar.OnMainClickListener() {
-            @Override
-            public void onClick(MainCalendar mainCalendar, CalendarButton button) {
-                if(button != null)
-                   System.out.println("Show button after click action " + button);
-            }
-        });*/
 
 
     }
